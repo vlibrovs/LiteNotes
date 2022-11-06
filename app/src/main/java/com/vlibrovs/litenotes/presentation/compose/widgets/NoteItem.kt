@@ -118,60 +118,6 @@ fun NoteItem(
     }
 }
 
-@Preview
-@Composable
-fun NoteItemPreview() {
-    LiteNotesTheme {
-        var primaryNoteItemState by remember { mutableStateOf<NoteItemState>(NoteItemState.Selectable()) }
-        var secondaryNoteItemState by remember { mutableStateOf<NoteItemState>(NoteItemState.Selectable()) }
-        var tertiaryNoteItemState by remember { mutableStateOf<NoteItemState>(NoteItemState.Selectable()) }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            NoteItem(
-                note = Note(
-                    title = "Title",
-                    content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at sodales odio. Aliquam sed augue felis. Morbi accumsan convallis imperdiet. Curabitur et elit nisl..."
-                ),
-                onClick = {
-                    primaryNoteItemState =
-                        NoteItemState.Selectable(isSelected = !(primaryNoteItemState as NoteItemState.Selectable).isSelected)
-                },
-                style = NoteItemStyle.Primary,
-                state = primaryNoteItemState
-            )
-            NoteItem(
-                note = Note(
-                    title = "Title",
-                    content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at sodales odio. Aliquam sed augue felis. Morbi accumsan convallis imperdiet. Curabitur et elit nisl..."
-                ),
-                onClick = {
-                    secondaryNoteItemState =
-                        NoteItemState.Selectable(isSelected = !(secondaryNoteItemState as NoteItemState.Selectable).isSelected)
-                },
-                style = NoteItemStyle.Secondary,
-                state = secondaryNoteItemState
-            )
-            NoteItem(
-                note = Note(
-                    title = "Title",
-                    content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at sodales odio. Aliquam sed augue felis. Morbi accumsan convallis imperdiet. Curabitur et elit nisl..."
-                ),
-                onClick = {
-                    tertiaryNoteItemState =
-                        NoteItemState.Selectable(isSelected = !(tertiaryNoteItemState as NoteItemState.Selectable).isSelected)
-                },
-                style = NoteItemStyle.Tertiary,
-                state = tertiaryNoteItemState
-            )
-        }
-    }
-}
-
 sealed class NoteItemStyle {
     object Primary : NoteItemStyle()
     object Secondary : NoteItemStyle()

@@ -1,5 +1,7 @@
 package com.vlibrovs.litenotes.presentation.compose.widgets
 
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
@@ -17,13 +19,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
 
 @Composable
 fun TextField(
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.width(250.dp),
     label: String,
     type: TextFieldType = TextFieldType.Default,
     onSearch: (String) -> Unit = {}

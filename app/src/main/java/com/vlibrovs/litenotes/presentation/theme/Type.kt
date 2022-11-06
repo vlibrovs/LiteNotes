@@ -46,6 +46,7 @@ val Typography = Typography(
         fontFamily = FontFamily.Poppins,
         textAlign = TextAlign.Start
     ),
+    // For buttons
     labelLarge = TextStyle(
         fontSize = 24.sp,
         fontWeight = FontWeight.Normal,

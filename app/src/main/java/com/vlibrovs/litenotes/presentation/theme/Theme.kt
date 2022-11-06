@@ -1,10 +1,12 @@
 package com.vlibrovs.litenotes.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -76,3 +78,19 @@ fun LiteNotesTheme(
         typography = Typography
     )
 }
+
+val ColorScheme.primaryContainerOnClick: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) md_theme_dark_primaryContainer_onClick
+    else md_theme_light_primaryContainer_onClick
+
+val ColorScheme.secondaryContainerOnClick: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) md_theme_dark_secondaryContainer_onClick
+    else md_theme_light_secondaryContainer_onClick
+
+
+val ColorScheme.tertiaryContainerOnClick: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) md_theme_dark_tertiaryContainer_onClick
+    else md_theme_light_tertiaryContainer_onClick

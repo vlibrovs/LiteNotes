@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vlibrovs.litenotes.presentation.theme.fonts.Lobster
 import com.vlibrovs.litenotes.presentation.theme.fonts.Poppins
@@ -26,7 +27,7 @@ val Typography = Typography(
         fontSize = 40.sp,
         fontWeight = FontWeight.SemiBold,
         fontFamily = FontFamily.Poppins,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
     ),
     bodyLarge = TextStyle(
         fontSize = 18.sp,

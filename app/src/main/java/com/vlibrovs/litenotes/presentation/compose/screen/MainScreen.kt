@@ -14,15 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
 import com.vlibrovs.litenotes.R
 import com.vlibrovs.litenotes.domain.model.note.Note
 import com.vlibrovs.litenotes.presentation.compose.widgets.*
 import com.vlibrovs.litenotes.presentation.viewmodel.MainScreenViewModel
+import com.vlibrovs.litenotes.util.screen.Screen
 
 @Composable
 fun MainScreen(
-    viewModel: MainScreenViewModel
+    viewModel: MainScreenViewModel,
+    navController: NavController
 ) {
     LiteNotesTheme {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -45,7 +48,11 @@ fun MainScreen(
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.displayMedium,
                         )
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = {
+                            viewModel.signOut {
+                                navController.navigate(Screen.StartScreen.route)
+                            }
+                        }) {
                             Icon(
                                 modifier = Modifier.size(48.dp),
                                 imageVector = Icons.Default.ExitToApp,
@@ -80,7 +87,9 @@ fun MainScreen(
                                 .filterIndexed { index, _ -> index % 2 == 0 }) {
                                 NoteItem(
                                     note = note,
-                                    onClick = { /*TODO*/ },
+                                    onClick = {
+                                        navController.navigate(Screen.NoteViewScreen.routeWith(note))
+                                    },
                                     style = when (index % 3) {
                                         0 -> NoteItemStyle.Primary
                                         1 -> NoteItemStyle.Secondary
@@ -103,7 +112,9 @@ fun MainScreen(
                                 .filterIndexed { index, _ -> index % 2 == 1 }) {
                                 NoteItem(
                                     note = note,
-                                    onClick = { /*TODO*/ },
+                                    onClick = {
+                                        navController.navigate(Screen.NoteViewScreen.routeWith(note))
+                                    },
                                     style = when (index % 3) {
                                         0 -> NoteItemStyle.Primary
                                         1 -> NoteItemStyle.Secondary

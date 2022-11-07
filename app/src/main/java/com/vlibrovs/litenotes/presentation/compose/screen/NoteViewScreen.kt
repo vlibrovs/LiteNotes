@@ -10,16 +10,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.vlibrovs.litenotes.domain.model.note.Note
 import com.vlibrovs.litenotes.presentation.compose.widgets.BackButton
 import com.vlibrovs.litenotes.presentation.compose.widgets.FloatingEditButton
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
+import com.vlibrovs.litenotes.presentation.viewmodel.EditNoteScreenViewModel
+import com.vlibrovs.litenotes.util.screen.Screen
 
 @Composable
 fun NoteViewScreen(
-    note: Note
+    note: Note,
+    navController: NavController,
+    viewModel: EditNoteScreenViewModel
 ) {
     LiteNotesTheme {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -46,7 +50,7 @@ fun NoteViewScreen(
                             )
                         }
                         BackButton {
-                            // TODO
+                            navController.popBackStack()
                         }
                     }
                 }
@@ -71,7 +75,8 @@ fun NoteViewScreen(
                 contentAlignment = Alignment.BottomEnd
             ) {
                 FloatingEditButton {
-                    // TODO
+                    viewModel.note = note
+                    navController.navigate(Screen.EditNoteScreen.route)
                 }
             }
         }

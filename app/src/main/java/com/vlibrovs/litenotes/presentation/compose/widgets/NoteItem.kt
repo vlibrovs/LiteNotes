@@ -37,8 +37,8 @@ fun NoteItem(
     style: NoteItemStyle = NoteItemStyle.Primary,
     state: NoteItemState = NoteItemState.Default,
     note: Note,
-    onClick: (note: Note) -> Unit,
-    onLongClick: (note: Note) -> Unit
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -74,8 +74,8 @@ fun NoteItem(
                 .padding(innerPadding)
                 .combinedClickable(interactionSource = interactionSource,
                     indication = null,
-                    onClick = { onClick(note) },
-                    onLongClick = { onLongClick(note) })
+                    onClick = { onClick() },
+                    onLongClick = { onLongClick() })
 
         ) {
             Text(

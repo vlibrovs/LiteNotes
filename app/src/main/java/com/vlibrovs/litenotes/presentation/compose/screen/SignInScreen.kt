@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.vlibrovs.litenotes.R
 import com.vlibrovs.litenotes.presentation.compose.widgets.Button
 import com.vlibrovs.litenotes.presentation.compose.widgets.ButtonStyle
@@ -22,10 +23,12 @@ import com.vlibrovs.litenotes.presentation.compose.widgets.TextField
 import com.vlibrovs.litenotes.presentation.compose.widgets.TextFieldType
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
 import com.vlibrovs.litenotes.presentation.viewmodel.SignInScreenViewModel
+import com.vlibrovs.litenotes.util.screen.Screen
 
 @Composable
 fun SignInScreen(
-    viewModel: SignInScreenViewModel
+    viewModel: SignInScreenViewModel,
+    navController: NavController
 ) {
     LiteNotesTheme {
         Column(
@@ -78,7 +81,11 @@ fun SignInScreen(
             ) {
                 Button(
                     style = ButtonStyle.Filled,
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        viewModel.signIn {
+                            navController.navigate(Screen.MainScreen.route)
+                        }
+                    },
                     text = stringResource(id = R.string.sign_in)
                 )
 
@@ -86,7 +93,7 @@ fun SignInScreen(
 
                 Button(
                     style = ButtonStyle.Outlined,
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.popBackStack() },
                     text = stringResource(id = R.string.back)
                 )
             }

@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.vlibrovs.litenotes.R
 import com.vlibrovs.litenotes.presentation.compose.widgets.Button
 import com.vlibrovs.litenotes.presentation.compose.widgets.ButtonStyle
@@ -16,10 +17,12 @@ import com.vlibrovs.litenotes.presentation.compose.widgets.TextField
 import com.vlibrovs.litenotes.presentation.compose.widgets.TextFieldType
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
 import com.vlibrovs.litenotes.presentation.viewmodel.SignUpScreenViewModel
+import com.vlibrovs.litenotes.util.screen.Screen
 
 @Composable
 fun SignUpScreen(
-    viewModel: SignUpScreenViewModel
+    viewModel: SignUpScreenViewModel,
+    navController: NavController
 ) {
     LiteNotesTheme {
         Column(
@@ -71,7 +74,11 @@ fun SignUpScreen(
             ) {
                 Button(
                     style = ButtonStyle.Filled,
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        viewModel.signUp {
+                            navController.navigate(Screen.MainScreen.route)
+                        }
+                    },
                     text = stringResource(id = R.string.sign_up)
                 )
 
@@ -79,7 +86,7 @@ fun SignUpScreen(
 
                 Button(
                     style = ButtonStyle.Outlined,
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.popBackStack() },
                     text = stringResource(id = R.string.back)
                 )
             }

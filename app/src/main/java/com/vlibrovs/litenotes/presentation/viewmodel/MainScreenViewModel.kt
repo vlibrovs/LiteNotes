@@ -48,6 +48,10 @@ class MainScreenViewModel : ViewModel() {
         // TODO
     }
 
+    fun signOut(onSuccess: () -> Unit) {
+        // TODO
+    }
+
     private fun Sequence<String>.toText(): String {
         val sb = StringBuilder()
         for (string in this) {

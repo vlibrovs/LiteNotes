@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
 import com.vlibrovs.litenotes.R
 import com.vlibrovs.litenotes.presentation.compose.widgets.Button
@@ -17,7 +18,8 @@ import com.vlibrovs.litenotes.presentation.viewmodel.EditNoteScreenViewModel
 
 @Composable
 fun EditNoteScreen(
-    viewModel: EditNoteScreenViewModel
+    viewModel: EditNoteScreenViewModel,
+    navController: NavController
 ) {
     LiteNotesTheme {
         Column(
@@ -51,14 +53,18 @@ fun EditNoteScreen(
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     style = ButtonStyle.Filled,
-                    onClick = { viewModel.save() },
+                    onClick = {
+                        viewModel.save {
+                            navController.popBackStack()
+                        }
+                    },
                     text = stringResource(id = R.string.save)
                 )
                 Spacer(modifier = Modifier.height(30.dp))
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     style = ButtonStyle.Outlined,
-                    onClick = { viewModel.cancel() },
+                    onClick = { navController.popBackStack() },
                     text = stringResource(id = R.string.cancel)
                 )
             }

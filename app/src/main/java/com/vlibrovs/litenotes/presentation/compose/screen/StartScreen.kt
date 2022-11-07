@@ -11,14 +11,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.vlibrovs.litenotes.R
 import com.vlibrovs.litenotes.presentation.compose.widgets.Button
 import com.vlibrovs.litenotes.presentation.compose.widgets.ButtonStyle
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
+import com.vlibrovs.litenotes.util.screen.Screen
 
-@Preview
 @Composable
-fun StartScreen() {
+fun StartScreen(
+    navController: NavController
+) {
     LiteNotesTheme {
         Column(
             modifier = Modifier
@@ -47,7 +50,7 @@ fun StartScreen() {
             ) {
                 Button(
                     style = ButtonStyle.Filled,
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(Screen.SigInScreen.route) },
                     text = stringResource(id = R.string.sign_in)
                 )
 
@@ -55,7 +58,7 @@ fun StartScreen() {
 
                 Button(
                     style = ButtonStyle.Outlined,
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(Screen.SignUpScreen.route) },
                     text = stringResource(id = R.string.sign_up)
                 )
             }

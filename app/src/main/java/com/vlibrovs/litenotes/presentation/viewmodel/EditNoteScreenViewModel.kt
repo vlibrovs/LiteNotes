@@ -22,7 +22,7 @@ class EditNoteScreenViewModel : ViewModel() {
         _contentState.value = newValue
     }
 
-    fun save() {
+    fun save(onSuccess: () -> Unit) {
         // TODO
     }
 

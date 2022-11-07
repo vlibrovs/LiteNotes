@@ -6,18 +6,18 @@ import androidx.lifecycle.ViewModel
 class SignUpScreenViewModel : ViewModel() {
 
     private val _emailState = mutableStateOf("")
+
     val emailState: String
         get() = _emailState.value
-
-
     private val _passwordState = mutableStateOf("")
+
+
     val passwordState: String
         get() = _passwordState.value
-
     private val _confirmPasswordState = mutableStateOf("")
+
     val confirmPasswordState: String
         get() = _confirmPasswordState.value
-
     val onEmailValueChange = { newValue: String ->
         _emailState.value = newValue
     }
@@ -28,6 +28,10 @@ class SignUpScreenViewModel : ViewModel() {
 
     val onConfirmPasswordValueChange = { newValue: String ->
         _confirmPasswordState.value = newValue
+    }
+
+    fun signUp(onSuccess: () -> Unit) {
+        // TODO
     }
 
 }

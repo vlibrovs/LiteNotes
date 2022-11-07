@@ -22,4 +22,8 @@ class SignInScreenViewModel : ViewModel() {
         _passwordState.value = newValue
     }
 
+    fun signIn(onSuccess: () -> Unit) {
+        // TODO
+    }
+
 }

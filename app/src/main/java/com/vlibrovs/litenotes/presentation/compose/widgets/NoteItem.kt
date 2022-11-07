@@ -4,9 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
@@ -18,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.vlibrovs.litenotes.domain.model.note.Note
@@ -26,20 +23,21 @@ import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
 import com.vlibrovs.litenotes.presentation.theme.primaryContainerOnClick
 import com.vlibrovs.litenotes.presentation.theme.secondaryContainerOnClick
 import com.vlibrovs.litenotes.presentation.theme.tertiaryContainerOnClick
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteItem(
-    modifier: Modifier = Modifier
-        .width(160.dp),
-    height: Dp = 230.dp,
-    padding: PaddingValues = PaddingValues(top = 15.dp, bottom = 31.dp, start = 15.dp, end = 15.dp),
+    modifier: Modifier = Modifier.width(160.dp),
+    maxContentHeight: Dp = 200.dp,
+    innerPadding: PaddingValues = PaddingValues(
+        top = 15.dp, start = 15.dp, end = 15.dp
+    ),
+    outerPadding: PaddingValues = PaddingValues(),
     style: NoteItemStyle = NoteItemStyle.Primary,
     state: NoteItemState = NoteItemState.Default,
     note: Note,
-    onClick: (note: Note) -> Unit
+    onClick: (note: Note) -> Unit,
+    onLongClick: (note: Note) -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -60,58 +58,61 @@ fun NoteItem(
         }
     )
     LiteNotesTheme {
-        Box {
-            Column(
-                modifier = modifier
-                    .height(height)
-                    .background(
-                        shape = RoundedCornerShape(10.dp),
-                        color = backgroundColor
-                    )
-                    .border(
-                        width = 2.dp,
-                        color = if (state is NoteItemState.Selectable && state.isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-                        shape = RoundedCornerShape(10.dp)
-                    )
-                    .padding(padding)
-                    .clickable(interactionSource = interactionSource, indication = null) {
-                        onClick(note)
-                    }
+        Column(
+            modifier = modifier
+                .padding(outerPadding)
+                .background(
+                    shape = RoundedCornerShape(10.dp), color = backgroundColor
+                )
+                .border(
+                    width = 2.dp,
+                    color = if (state is NoteItemState.Selectable && state.isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .padding(innerPadding)
+                .combinedClickable(interactionSource = interactionSource,
+                    indication = null,
+                    onClick = { onClick(note) },
+                    onLongClick = { onLongClick(note) })
+
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = note.title,
+                style = MaterialTheme.typography.titleSmall,
+                color = when (style) {
+                    NoteItemStyle.Primary -> MaterialTheme.colorScheme.primary
+                    NoteItemStyle.Secondary -> MaterialTheme.colorScheme.secondary
+                    NoteItemStyle.Tertiary -> MaterialTheme.colorScheme.tertiary
+                },
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                modifier = Modifier.heightIn(0.dp, maxContentHeight),
+                text = note.content,
+                style = MaterialTheme.typography.bodySmall,
+                color = when (style) {
+                    NoteItemStyle.Primary -> MaterialTheme.colorScheme.onPrimaryContainer
+                    NoteItemStyle.Secondary -> MaterialTheme.colorScheme.onSecondaryContainer
+                    NoteItemStyle.Tertiary -> MaterialTheme.colorScheme.onTertiaryContainer
+                },
+                overflow = TextOverflow.Ellipsis,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(31.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
             ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = note.title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = when (style) {
-                        NoteItemStyle.Primary -> MaterialTheme.colorScheme.primary
-                        NoteItemStyle.Secondary -> MaterialTheme.colorScheme.secondary
-                        NoteItemStyle.Tertiary -> MaterialTheme.colorScheme.tertiary
-                    },
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    modifier = Modifier.fillMaxSize(),
-                    text = note.content,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = when (style) {
-                        NoteItemStyle.Primary -> MaterialTheme.colorScheme.onPrimaryContainer
-                        NoteItemStyle.Secondary -> MaterialTheme.colorScheme.onSecondaryContainer
-                        NoteItemStyle.Tertiary -> MaterialTheme.colorScheme.onTertiaryContainer
-                    },
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-            Box(modifier = modifier.height(height), contentAlignment = Alignment.BottomEnd) {
-                Box(modifier = Modifier.size(31.dp)) {
-                    AnimatedVisibility(
-                        visible = state is NoteItemState.Selectable,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        RadioButton(isSelected = state is NoteItemState.Selectable && state.isSelected)
-                    }
+                AnimatedVisibility(
+                    visible = state is NoteItemState.Selectable,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    RadioButton(isSelected = state is NoteItemState.Selectable && state.isSelected)
                 }
             }
         }
@@ -126,6 +127,5 @@ sealed class NoteItemStyle {
 
 sealed class NoteItemState {
     object Default : NoteItemState()
-    data class Selectable(val isSelected: Boolean = false) :
-        NoteItemState()
+    data class Selectable(val isSelected: Boolean = false) : NoteItemState()
 }

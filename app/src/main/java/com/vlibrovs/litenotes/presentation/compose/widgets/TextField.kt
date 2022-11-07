@@ -1,5 +1,7 @@
 package com.vlibrovs.litenotes.presentation.compose.widgets
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
@@ -43,6 +45,7 @@ fun TextField(
             unfocusedBorderColor = outline
         )
     }
+    val interactionSource = remember { MutableInteractionSource() }
     LiteNotesTheme {
         OutlinedTextField(
             value = value,
@@ -69,12 +72,14 @@ fun TextField(
                     }) {
                         Icon(
                             painter = rememberVectorPainter(image = Icons.Outlined.Search),
-                            contentDescription = "Search"
+                            contentDescription = "Search",
+                            tint = MaterialTheme.colorScheme.run { if (interactionSource.collectIsFocusedAsState().value) primary else outline }
                         )
                     }
                 }
             },
             textStyle = MaterialTheme.typography.bodyLarge,
+            interactionSource = interactionSource
         )
     }
 }

@@ -21,16 +21,12 @@ import com.vlibrovs.litenotes.presentation.compose.widgets.ButtonStyle
 import com.vlibrovs.litenotes.presentation.compose.widgets.TextField
 import com.vlibrovs.litenotes.presentation.compose.widgets.TextFieldType
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
+import com.vlibrovs.litenotes.presentation.viewmodel.SignInScreenViewModel
 
-@Preview
 @Composable
-fun SignInScreen() {
-    var email by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
-    }
+fun SignInScreen(
+    viewModel: SignInScreenViewModel
+) {
     LiteNotesTheme {
         Column(
             modifier = Modifier
@@ -50,10 +46,8 @@ fun SignInScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 TextField(
-                    value = email,
-                    onValueChange = {
-                        email = it
-                    },
+                    value = viewModel.emailState,
+                    onValueChange = viewModel.onEmailValueChange,
                     label = stringResource(id = R.string.email),
                     type = TextFieldType.Email
                 )
@@ -61,10 +55,8 @@ fun SignInScreen() {
                 Spacer(modifier = Modifier.height(30.dp))
 
                 TextField(
-                    value = password,
-                    onValueChange = {
-                        password = it
-                    },
+                    value = viewModel.passwordState,
+                    onValueChange = viewModel.onPasswordValueChange,
                     label = stringResource(id = R.string.password),
                     type = TextFieldType.Password
                 )

@@ -18,17 +18,12 @@ import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
 import com.vlibrovs.litenotes.R
 import com.vlibrovs.litenotes.domain.model.note.Note
 import com.vlibrovs.litenotes.presentation.compose.widgets.*
+import com.vlibrovs.litenotes.presentation.viewmodel.MainScreenViewModel
 
 @Composable
 fun MainScreen(
-    notes: List<Note>
+    viewModel: MainScreenViewModel
 ) {
-    var searchQuery by remember {
-        mutableStateOf("")
-    }
-    var displayedNotes by remember {
-        mutableStateOf(notes)
-    }
     LiteNotesTheme {
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
@@ -62,14 +57,12 @@ fun MainScreen(
                 }
 
                 item {
-                    TextField(value = searchQuery,
-                        onValueChange = { searchQuery = it },
-                        label = stringResource(
-                            id = R.string.search
-                        ),
+                    TextField(value = viewModel.searchQuery,
+                        onValueChange = viewModel.onSearchQueryChange,
+                        label = stringResource(id = R.string.search),
                         modifier = Modifier.fillMaxWidth(),
                         type = TextFieldType.Search,
-                        onSearch = { /*TODO*/ })
+                        onSearch = { viewModel.search() })
                 }
 
                 item {
@@ -83,7 +76,7 @@ fun MainScreen(
                                 .fillMaxWidth(.5f)
                                 .padding(end = 15.dp)
                         ) {
-                            for ((index, note) in displayedNotes.withIndex()
+                            for ((index, note) in viewModel.displayingNotes.withIndex()
                                 .filterIndexed { index, _ -> index % 2 == 0 }) {
                                 NoteItem(
                                     note = note,
@@ -106,7 +99,7 @@ fun MainScreen(
                                 .fillMaxWidth()
                                 .padding(start = 15.dp)
                         ) {
-                            for ((index, note) in displayedNotes.withIndex()
+                            for ((index, note) in viewModel.displayingNotes.withIndex()
                                 .filterIndexed { index, _ -> index % 2 == 1 }) {
                                 NoteItem(
                                     note = note,

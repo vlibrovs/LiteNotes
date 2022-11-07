@@ -2,6 +2,7 @@ package com.vlibrovs.litenotes.presentation.compose.widgets
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.*
@@ -55,7 +56,8 @@ fun NoteItem(
                 if (isPressed) MaterialTheme.colorScheme.tertiaryContainerOnClick
                 else MaterialTheme.colorScheme.tertiaryContainer
             }
-        }
+        },
+        animationSpec = tween(20)
     )
     LiteNotesTheme {
         Column(

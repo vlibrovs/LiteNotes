@@ -1,5 +1,6 @@
 package com.vlibrovs.litenotes.di
 
+import com.vlibrovs.litenotes.presentation.viewmodel.EditNoteScreenViewModel
 import com.vlibrovs.litenotes.presentation.viewmodel.MainScreenViewModel
 import com.vlibrovs.litenotes.presentation.viewmodel.SignInScreenViewModel
 import com.vlibrovs.litenotes.presentation.viewmodel.SignUpScreenViewModel
@@ -15,5 +16,8 @@ val appModule = module {
     }
     viewModel {
         MainScreenViewModel()
+    }
+    viewModel {
+        EditNoteScreenViewModel()
     }
 }

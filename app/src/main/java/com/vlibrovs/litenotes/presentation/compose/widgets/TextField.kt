@@ -63,7 +63,7 @@ fun TextField(
             keyboardActions = if (type == TextFieldType.Search) KeyboardActions(onSearch = {
                 onSearch(value)
             }) else KeyboardActions.Default,
-            singleLine = true,
+            singleLine = type != TextFieldType.TextArea,
             colors = textFieldColors,
             trailingIcon = if (type != TextFieldType.Search) null else {
                 {
@@ -89,4 +89,5 @@ sealed class TextFieldType {
     object Password : TextFieldType()
     object Search : TextFieldType()
     object Email : TextFieldType()
+    object TextArea : TextFieldType()
 }

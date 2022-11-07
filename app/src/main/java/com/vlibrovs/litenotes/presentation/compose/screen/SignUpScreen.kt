@@ -24,11 +24,14 @@ import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
 
 @Preview
 @Composable
-fun SignInScreen() {
+fun SignUpScreen() {
     var email by remember {
         mutableStateOf("")
     }
     var password by remember {
+        mutableStateOf("")
+    }
+    var confirmPassword by remember {
         mutableStateOf("")
     }
     LiteNotesTheme {
@@ -41,7 +44,7 @@ fun SignInScreen() {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = stringResource(id = R.string.sign_in),
+                text = stringResource(id = R.string.sign_up),
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -68,16 +71,17 @@ fun SignInScreen() {
                     label = stringResource(id = R.string.password),
                     type = TextFieldType.Password
                 )
-                TextButton(modifier = Modifier.align(End), onClick = { /*TODO*/ }) {
-                    Text(
-                        text = stringResource(id = R.string.forgot_password),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.primary
-                        ),
-                        textAlign = TextAlign.End
-                    )
-                }
+
+                Spacer(modifier = Modifier.height(30.dp))
+
+                TextField(
+                    value = confirmPassword,
+                    onValueChange = {
+                        confirmPassword = it
+                    },
+                    label = stringResource(id = R.string.confirm_password),
+                    type = TextFieldType.Password
+                )
             }
 
             Column(
@@ -87,7 +91,7 @@ fun SignInScreen() {
                 Button(
                     style = ButtonStyle.Filled,
                     onClick = { /*TODO*/ },
-                    text = stringResource(id = R.string.sign_in)
+                    text = stringResource(id = R.string.sign_up)
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))

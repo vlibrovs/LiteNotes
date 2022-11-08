@@ -2,7 +2,7 @@ package com.vlibrovs.litenotes.domain.usecase.user
 
 import com.vlibrovs.litenotes.domain.model.note.Note
 import com.vlibrovs.litenotes.domain.model.user.User
-import com.vlibrovs.litenotes.domain.repository.Repository
+import com.vlibrovs.litenotes.domain.repository.NoteRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
 import com.vlibrovs.litenotes.util.resource.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -12,7 +12,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SignInUserUseCaseTest {
-    private val repository = object : Repository {
+    private val repository = object : NoteRepository {
         private val users = mutableListOf<User>(
             User(email = "testuser@email.com", password = "Testpassword123_")
         )

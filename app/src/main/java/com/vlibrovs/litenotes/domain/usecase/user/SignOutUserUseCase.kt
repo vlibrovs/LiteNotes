@@ -1,14 +1,15 @@
 package com.vlibrovs.litenotes.domain.usecase.user
 
 import com.vlibrovs.litenotes.domain.model.user.User
-import com.vlibrovs.litenotes.domain.repository.Repository
+import com.vlibrovs.litenotes.domain.repository.NoteRepository
+import com.vlibrovs.litenotes.domain.repository.UserRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
 import com.vlibrovs.litenotes.util.resource.Resource
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class SignOutUserUseCase(private val repository: Repository) {
+class SignOutUserUseCase(private val repository: UserRepository) {
 
     suspend operator fun invoke(user: User) = flow<Resource<AuthResult>> {
         emit(Resource.Loading())

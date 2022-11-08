@@ -49,26 +49,22 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = Screen.SigInScreen.route) {
                         SignInScreen(
-                            viewModel = signInScreenViewModel,
-                            navController = navController
+                            viewModel = signInScreenViewModel, navController = navController
                         )
                     }
                     composable(route = Screen.SignUpScreen.route) {
                         SignUpScreen(
-                            viewModel = signUpScreenViewModel,
-                            navController = navController
+                            viewModel = signUpScreenViewModel, navController = navController
                         )
                     }
                     composable(route = Screen.MainScreen.route) {
                         MainScreen(
-                            viewModel = mainScreenViewModel,
-                            navController = navController
+                            viewModel = mainScreenViewModel, navController = navController
                         )
                     }
                     composable(route = Screen.EditNoteScreen.route) {
                         EditNoteScreen(
-                            viewModel = editNoteScreenViewModel,
-                            navController = navController
+                            viewModel = editNoteScreenViewModel, navController = navController
                         )
                     }
                     composable(

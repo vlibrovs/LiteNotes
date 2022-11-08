@@ -4,4 +4,5 @@ sealed class Resource<T> {
     class Success<T>(val data: T) : Resource<T>()
     class Loading<T> : Resource<T>()
     class Error<T>(val data: T? = null, val error: Throwable? = null) : Resource<T>()
+    class Empty<T> : Resource<T>()
 }

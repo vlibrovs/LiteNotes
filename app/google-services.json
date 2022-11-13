@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "445925009405",
+    "project_id": "authdemo-87d5c",
+    "storage_bucket": "authdemo-87d5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445925009405:android:1c0f7ad3ad86ffd4981b94",
+        "android_client_info": {
+          "package_name": "com.vlibrovs.litenotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445925009405-p2pgdmipo28uaugb76b1ie67qa7imaet.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHcRME_h_1PYMMj4-j2juX2G3XQcMjQYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445925009405-p2pgdmipo28uaugb76b1ie67qa7imaet.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

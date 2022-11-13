@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -27,8 +26,7 @@ import com.vlibrovs.litenotes.util.screen.Screen
 
 @Composable
 fun SignInScreen(
-    viewModel: SignInScreenViewModel,
-    navController: NavController
+    viewModel: SignInScreenViewModel, navController: NavController
 ) {
     LiteNotesTheme {
         Column(
@@ -65,12 +63,9 @@ fun SignInScreen(
                 )
                 TextButton(modifier = Modifier.align(End), onClick = { /*TODO*/ }) {
                     Text(
-                        text = stringResource(id = R.string.forgot_password),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.primary
-                        ),
-                        textAlign = TextAlign.End
+                        text = stringResource(id = R.string.forgot_password), style = TextStyle(
+                            fontSize = 14.sp, color = MaterialTheme.colorScheme.primary
+                        ), textAlign = TextAlign.End
                     )
                 }
             }
@@ -80,13 +75,12 @@ fun SignInScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
-                    style = ButtonStyle.Filled,
-                    onClick = {
+                    style = ButtonStyle.Filled, onClick = {
                         viewModel.signIn {
                             navController.navigate(Screen.MainScreen.route)
                         }
-                    },
-                    text = stringResource(id = R.string.sign_in)
+                    }, text = stringResource(id = R.string.sign_in),
+                    isLoading = viewModel.isLoading
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))

@@ -1,7 +1,7 @@
 package com.vlibrovs.litenotes.domain.usecase.user
 
+import android.util.Log
 import com.vlibrovs.litenotes.domain.model.user.User
-import com.vlibrovs.litenotes.domain.repository.NoteRepository
 import com.vlibrovs.litenotes.domain.repository.UserRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
 import com.vlibrovs.litenotes.util.extensions.isValidEmail
@@ -27,8 +27,7 @@ class SignInUserUseCase(private val repository: UserRepository) {
             return@flow
         }
         try {
-            val user = User(email, password)
-            repository.signInUser(user)
+            repository.signIn(email, password)
             emit(Resource.Success(AuthResult.Success))
         } catch (e: IOException) {
             emit(Resource.Error(data = AuthResult.NoInternetConnection))

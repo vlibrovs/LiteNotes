@@ -38,7 +38,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            var signedIn by remember { mutableStateOf(true) }
+            val signedIn by remember {
+                mutableStateOf(signInScreenViewModel.currentUser.value != null)
+            }
             LiteNotesTheme {
                 NavHost(
                     navController = navController,

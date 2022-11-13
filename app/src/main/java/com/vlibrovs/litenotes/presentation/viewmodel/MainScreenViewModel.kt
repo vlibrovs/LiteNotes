@@ -3,19 +3,16 @@ package com.vlibrovs.litenotes.presentation.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.vlibrovs.litenotes.domain.model.note.Note
 import com.vlibrovs.litenotes.domain.model.user.User
+import com.vlibrovs.litenotes.domain.usecase.user.SignOutUserUseCase
+import com.vlibrovs.litenotes.util.resource.Resource
+import kotlinx.coroutines.launch
 
-class MainScreenViewModel : ViewModel() {
+class MainScreenViewModel(private val signOutUser: SignOutUserUseCase) : ViewModel() {
 
-    private val allNotes = mutableListOf<Note>(
-        Note(title = "Note1", content = LoremIpsum(20).values.toText()),
-        Note(title = "Note2", content = LoremIpsum(8).values.toText()),
-        Note(title = "Note3", content = LoremIpsum(12).values.toText()),
-        Note(title = "Note4", content = LoremIpsum(15).values.toText()),
-        Note(title = "Note5", content = LoremIpsum(10).values.toText()),
-        Note(title = "Note6", content = LoremIpsum(13).values.toText()),
-    )
+    private val allNotes = mutableListOf<Note>()
 
     private val _displayingNotes = mutableListOf<Note>().apply { addAll(allNotes) }
     val displayingNotes: List<Note> get() = _displayingNotes
@@ -48,8 +45,16 @@ class MainScreenViewModel : ViewModel() {
         // TODO
     }
 
-    fun signOut(onSuccess: () -> Unit) {
-        // TODO
+    fun signOut(
+        onFinish: () -> Unit
+    ) {
+        viewModelScope.launch {
+            signOutUser().collect { resource ->
+                if (resource is Resource.Success) {
+                    onFinish()
+                }
+            }
+        }
     }
 
     private fun Sequence<String>.toText(): String {

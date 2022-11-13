@@ -1,21 +1,29 @@
 package com.vlibrovs.litenotes.presentation.compose.widgets
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
+import com.vlibrovs.litenotes.util.values.Constants
 
 @Composable
 fun Button(
@@ -24,7 +32,8 @@ fun Button(
         .height(50.dp),
     style: ButtonStyle,
     onClick: () -> Unit,
-    text: String
+    text: String,
+    isLoading: State<Boolean> = mutableStateOf(false)
 ) {
     LiteNotesTheme {
         val filledButtonColors = MaterialTheme.colorScheme.run {
@@ -57,11 +66,38 @@ fun Button(
                     onClick = onClick, colors = outlinedButtonColors,
                     border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary)
                 ) {
-                    Text(
-                        text = text,
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.labelLarge
-                    )
+                    AnimatedVisibility(
+                        visible = isLoading.value,
+                        enter = fadeIn(
+                            tween(
+                                durationMillis = Constants.AnimationDuration.PROGRESS_BAR,
+                                delayMillis = Constants.AnimationDuration.PROGRESS_BAR
+                            )
+                        ),
+                        exit = fadeOut(
+                            tween(Constants.AnimationDuration.PROGRESS_BAR)
+                        )
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                    AnimatedVisibility(
+                        visible = !isLoading.value,
+                        enter = fadeIn(
+                            tween(
+                                durationMillis = Constants.AnimationDuration.PROGRESS_BAR,
+                                delayMillis = Constants.AnimationDuration.PROGRESS_BAR
+                            )
+                        ),
+                        exit = fadeOut(
+                            tween(Constants.AnimationDuration.PROGRESS_BAR)
+                        )
+                    ) {
+                        Text(
+                            text = text,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.vlibrovs.litenotes.presentation.compose.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -79,7 +80,8 @@ fun SignUpScreen(
                             navController.navigate(Screen.MainScreen.route)
                         }
                     },
-                    text = stringResource(id = R.string.sign_up)
+                    text = stringResource(id = R.string.sign_up),
+                    isLoading = viewModel.isLoading
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))

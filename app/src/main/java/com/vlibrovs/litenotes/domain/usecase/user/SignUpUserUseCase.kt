@@ -1,13 +1,13 @@
 package com.vlibrovs.litenotes.domain.usecase.user
 
-import com.vlibrovs.litenotes.domain.model.user.User
-import com.vlibrovs.litenotes.domain.repository.NoteRepository
+import android.util.Log
 import com.vlibrovs.litenotes.domain.repository.UserRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
 import com.vlibrovs.litenotes.util.extensions.isStrongPassword
 import com.vlibrovs.litenotes.util.extensions.isValidEmail
 import com.vlibrovs.litenotes.util.extensions.isValidPassword
 import com.vlibrovs.litenotes.util.resource.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
@@ -17,6 +17,7 @@ class SignUpUserUseCase(private val repository: UserRepository) {
     suspend operator fun invoke(email: String, password: String, confirmPassword: String) =
         flow<Resource<AuthResult>> {
             emit(Resource.Loading())
+            delay(1500L)
             if (email.isEmpty()) {
                 emit(Resource.Error(data = AuthResult.EmptyEmail))
                 return@flow
@@ -46,11 +47,7 @@ class SignUpUserUseCase(private val repository: UserRepository) {
                 return@flow
             }
             try {
-                if (repository.getUserByEmail(email) != null) {
-                    emit(Resource.Error(data = AuthResult.EmailIsRegistered))
-                    return@flow
-                }
-                repository.signUpUser(User(email = email, password = password))
+                repository.signUp(email = email, password = password)
                 emit(Resource.Success(AuthResult.Success))
             } catch (e: IOException) {
                 emit(Resource.Error(data = AuthResult.NoInternetConnection))

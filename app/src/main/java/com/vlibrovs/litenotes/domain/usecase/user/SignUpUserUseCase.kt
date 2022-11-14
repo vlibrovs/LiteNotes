@@ -1,5 +1,8 @@
 package com.vlibrovs.litenotes.domain.usecase.user
 
+import com.google.firebase.FirebaseApiNotAvailableException
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.vlibrovs.litenotes.domain.repository.UserRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
 import com.vlibrovs.litenotes.util.extensions.isStrongPassword
@@ -28,11 +31,20 @@ class SignUpUserUseCase(private val repository: UserRepository) {
 
             try {
                 repository.signUp(email = email, password = password)
-                emit(Resource.Success(AuthResult.Success))
+                if (repository.getCurrentUser() != null) emit(Resource.Success(AuthResult.Success))
+                else emit(Resource.Error(data = AuthResult.EmailIsRegistered))
             } catch (e: IOException) {
                 emit(Resource.Error(data = AuthResult.NoInternetConnection))
+            } catch (e: FirebaseNetworkException) {
+                emit(Resource.Error(data = AuthResult.NoInternetConnection))
+            } catch (e: FirebaseApiNotAvailableException) {
+                emit(Resource.Error(data = AuthResult.ServerError))
             } catch (e: HttpException) {
                 emit(Resource.Error(data = AuthResult.ServerError))
+            } catch (e: FirebaseAuthUserCollisionException) {
+                if (e.errorCode == "ERROR_EMAIL_ALREADY_IN_USE") {
+                    emit(Resource.Error(data = AuthResult.EmailIsRegistered))
+                }
             } catch (e: Exception) {
                 emit(Resource.Error(data = AuthResult.UnknownError, error = e))
             }

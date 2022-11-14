@@ -126,9 +126,6 @@ fun SignUpScreen(
                                     fontFamily = FontFamily.Poppins
                                 )
                             )
-                            IconButton(onClick = {}) {
-                                
-                            }
                         }
                     }
                     TextField(
@@ -145,6 +142,19 @@ fun SignUpScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                AnimatedVisibility(visible = viewModel.pageErrorState.value) {
+                    Text(
+                        text = stringResource(
+                            id = viewModel.pageErrorStringResourceState.value
+                                ?: R.string.unknown_error
+                        ),
+                        style = TextStyle(
+                            color = MaterialTheme.colorScheme.error,
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily.Poppins
+                        )
+                    )
+                }
                 Button(
                     style = ButtonStyle.Filled,
                     onClick = {

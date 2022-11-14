@@ -15,4 +15,5 @@ sealed class AuthResult {
     object EmptyPassword : AuthResult()
     object EmptyConfirmPassword : AuthResult()
     object PasswordIsNotConfirmed : AuthResult()
+    object WrongPasswordOrEmail : AuthResult()
 }

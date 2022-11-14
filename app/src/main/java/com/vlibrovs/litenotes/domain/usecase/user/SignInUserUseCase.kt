@@ -1,6 +1,12 @@
 package com.vlibrovs.litenotes.domain.usecase.user
 
 import android.util.Log
+import com.google.firebase.FirebaseApiNotAvailableException
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.vlibrovs.litenotes.domain.model.user.User
 import com.vlibrovs.litenotes.domain.repository.UserRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
@@ -28,9 +34,18 @@ class SignInUserUseCase(private val repository: UserRepository) {
         }
         try {
             repository.signIn(email, password)
-            emit(Resource.Success(AuthResult.Success))
+            if (repository.getCurrentUser() != null) emit(Resource.Success(AuthResult.Success))
+            else emit(Resource.Error(data = AuthResult.WrongPasswordOrEmail))
         } catch (e: IOException) {
             emit(Resource.Error(data = AuthResult.NoInternetConnection))
+        } catch (e: FirebaseNetworkException) {
+            emit(Resource.Error(data = AuthResult.NoInternetConnection))
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            emit(Resource.Error(data = AuthResult.WrongPassword))
+        } catch (e: FirebaseAuthInvalidUserException) {
+            emit(Resource.Error(data = AuthResult.NoSuchUser))
+        } catch (e: FirebaseApiNotAvailableException) {
+            emit(Resource.Error(data = AuthResult.ServerError))
         } catch (e: HttpException) {
             emit(Resource.Error(data = AuthResult.ServerError))
         } catch (e: Exception) {

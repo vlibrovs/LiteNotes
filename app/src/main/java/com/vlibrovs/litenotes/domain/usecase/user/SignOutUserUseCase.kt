@@ -1,5 +1,7 @@
 package com.vlibrovs.litenotes.domain.usecase.user
 
+import com.google.firebase.FirebaseApiNotAvailableException
+import com.google.firebase.FirebaseNetworkException
 import com.vlibrovs.litenotes.domain.repository.UserRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
 import com.vlibrovs.litenotes.util.resource.Resource
@@ -16,6 +18,10 @@ class SignOutUserUseCase(private val repository: UserRepository) {
             emit(Resource.Success(AuthResult.Success))
         } catch (e: IOException) {
             emit(Resource.Error(data = AuthResult.NoInternetConnection))
+        } catch (e: FirebaseNetworkException) {
+            emit(Resource.Error(data = AuthResult.NoInternetConnection))
+        } catch (e: FirebaseApiNotAvailableException) {
+            emit(Resource.Error(data = AuthResult.ServerError))
         } catch (e: HttpException) {
             emit(Resource.Error(data = AuthResult.ServerError))
         } catch (e: Exception) {

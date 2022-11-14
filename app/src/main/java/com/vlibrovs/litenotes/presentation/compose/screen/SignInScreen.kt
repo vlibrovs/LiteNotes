@@ -1,5 +1,8 @@
 package com.vlibrovs.litenotes.presentation.compose.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +14,7 @@ import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,6 +25,7 @@ import com.vlibrovs.litenotes.presentation.compose.widgets.ButtonStyle
 import com.vlibrovs.litenotes.presentation.compose.widgets.TextField
 import com.vlibrovs.litenotes.presentation.compose.widgets.TextFieldType
 import com.vlibrovs.litenotes.presentation.theme.LiteNotesTheme
+import com.vlibrovs.litenotes.presentation.theme.fonts.Poppins
 import com.vlibrovs.litenotes.presentation.viewmodel.SignInScreenViewModel
 import com.vlibrovs.litenotes.util.screen.Screen
 
@@ -46,21 +51,61 @@ fun SignInScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextField(
-                    value = viewModel.emailState,
-                    onValueChange = viewModel.onEmailValueChange,
-                    label = stringResource(id = R.string.email),
-                    type = TextFieldType.Email
-                )
+                Column {
+                    AnimatedVisibility(
+                        visible = viewModel.emailErrorState.value,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Text(
+                            text = stringResource(
+                                id = viewModel.emailErrorStringResourceState.value
+                                    ?: R.string.unknown_error
+                            ),
+                            style = TextStyle(
+                                color = MaterialTheme.colorScheme.error,
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily.Poppins
+                            )
+                        )
+                    }
+                    TextField(
+                        value = viewModel.emailState,
+                        onValueChange = viewModel.onEmailValueChange,
+                        label = stringResource(id = R.string.email),
+                        type = TextFieldType.Email,
+                        isError = viewModel.emailErrorState.value
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                TextField(
-                    value = viewModel.passwordState,
-                    onValueChange = viewModel.onPasswordValueChange,
-                    label = stringResource(id = R.string.password),
-                    type = TextFieldType.Password
-                )
+                Column {
+                    AnimatedVisibility(
+                        visible = viewModel.passwordErrorState.value,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Text(
+                            text = stringResource(
+                                id = viewModel.passwordErrorStringResourceState.value
+                                    ?: R.string.unknown_error
+                            ),
+                            style = TextStyle(
+                                color = MaterialTheme.colorScheme.error,
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily.Poppins
+                            )
+                        )
+                    }
+                    TextField(
+                        value = viewModel.passwordState,
+                        onValueChange = viewModel.onPasswordValueChange,
+                        label = stringResource(id = R.string.password),
+                        type = TextFieldType.Password,
+                        isError = viewModel.passwordErrorState.value
+                    )
+                }
                 TextButton(modifier = Modifier.align(End), onClick = { /*TODO*/ }) {
                     Text(
                         text = stringResource(id = R.string.forgot_password), style = TextStyle(
@@ -74,6 +119,19 @@ fun SignInScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                AnimatedVisibility(visible = viewModel.pageErrorState.value) {
+                    Text(
+                        text = stringResource(
+                            id = viewModel.pageErrorStringResourceState.value
+                                ?: R.string.unknown_error
+                        ),
+                        style = TextStyle(
+                            color = MaterialTheme.colorScheme.error,
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily.Poppins
+                        )
+                    )
+                }
                 Button(
                     style = ButtonStyle.Filled, onClick = {
                         viewModel.signIn {
@@ -84,7 +142,6 @@ fun SignInScreen(
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))
-
                 Button(
                     style = ButtonStyle.Outlined,
                     onClick = { navController.popBackStack() },

@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.FirebaseNetworkException
 import com.vlibrovs.litenotes.R
 import com.vlibrovs.litenotes.domain.usecase.user.SignUpUserUseCase
 import com.vlibrovs.litenotes.util.auth.AuthResult
@@ -12,6 +13,12 @@ import com.vlibrovs.litenotes.util.resource.Resource
 import kotlinx.coroutines.launch
 
 class SignUpScreenViewModel(private val signUpUser: SignUpUserUseCase) : ViewModel() {
+
+    private val _pageErrorState = mutableStateOf(false)
+    val pageErrorState: State<Boolean> get() = _pageErrorState
+
+    private val _pageErrorStringResourceState: MutableState<Int?> = mutableStateOf(null)
+    val pageErrorStringResourceState: State<Int?> get() = _pageErrorStringResourceState
 
     private val _emailErrorState = mutableStateOf(false)
     val emailErrorState: State<Boolean> get() = _emailErrorState
@@ -70,12 +77,14 @@ class SignUpScreenViewModel(private val signUpUser: SignUpUserUseCase) : ViewMod
                         _emailErrorState.value = false
                         _passwordErrorState.value = false
                         _confirmPasswordErrorState.value = false
+                        _pageErrorState.value = false
                     }
                     is Resource.Success -> {
                         _isLoading.value = false
                         _emailErrorState.value = false
                         _passwordErrorState.value = false
                         _confirmPasswordErrorState.value = false
+                        _pageErrorState.value = false
                         onFinish()
                     }
                     is Resource.Error -> {
@@ -116,10 +125,18 @@ class SignUpScreenViewModel(private val signUpUser: SignUpUserUseCase) : ViewMod
                                     R.string.empty_confirm_password_error
                                 _confirmPasswordErrorState.value = true
                             }
-                            AuthResult.PasswordIsNotConfirmed -> {
+                            is AuthResult.PasswordIsNotConfirmed -> {
                                 _confirmPasswordStringResourceState.value =
                                     R.string.passwords_dont_match_error
                                 _confirmPasswordErrorState.value = true
+                            }
+                            is AuthResult.NoInternetConnection -> {
+                                _pageErrorState.value = true
+                                _pageErrorStringResourceState.value = R.string.no_internet_connection_error
+                            }
+                            is AuthResult.ServerError -> {
+                                _pageErrorState.value = true
+                                _pageErrorStringResourceState.value = R.string.server_error
                             }
                             else -> Unit
                         }

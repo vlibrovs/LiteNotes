@@ -24,4 +24,12 @@
     <string name="weak_password_error">Weak password (Your password must contain at least one uppercase letter, one lowercase letter, one digit, and one special symbol (# . , _ - ( ) &amp;)</string>
     <string name="empty_confirm_password_error">Enter your password one more time to confirm it</string>
     <string name="passwords_dont_match_error">Passwords don`t match</string>
+
+    <string name="no_such_user_error">No user found with this e-mail address</string>
+    <string name="wrong_password_error">Wrong password</string>
+    <string name="empty_password_singin_error">Enter your password</string>
+
+
+    <string name="no_internet_connection_error">Check your internet connection and try again</string>
+    <string name="server_error">Server is unavailable</string>
 </resources>

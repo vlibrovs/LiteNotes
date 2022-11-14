@@ -14,4 +14,14 @@
     <string name="content">Content</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+
+    <string name="empty_email_error">Enter your e-mail address</string>
+    <string name="invalid_email_error">Enter a valid e-mail address</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="email_is_registered_error">This e-mail address is already registered. Sign in with this e-mail or choose another one.</string>
+    <string name="empty_password_error">Create your password</string>
+    <string name="invalid_password_error">Invalid password (Your password must only contain latin letters (a–z, A–Z), digits (0–9) and special symbols (# . , _ - ( ) &amp;)</string>
+    <string name="weak_password_error">Weak password (Your password must contain at least one uppercase letter, one lowercase letter, one digit, and one special symbol (# . , _ - ( ) &amp;)</string>
+    <string name="empty_confirm_password_error">Enter your password one more time to confirm it</string>
+    <string name="passwords_dont_match_error">Passwords don`t match</string>
 </resources>

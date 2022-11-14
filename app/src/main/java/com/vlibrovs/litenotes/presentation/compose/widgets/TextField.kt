@@ -31,7 +31,8 @@ fun TextField(
     modifier: Modifier = Modifier.width(250.dp),
     label: String,
     type: TextFieldType = TextFieldType.Default,
-    onSearch: (String) -> Unit = {}
+    onSearch: (String) -> Unit = {},
+    isError: Boolean = false
 ) {
     val textFieldColors = MaterialTheme.colorScheme.run {
         TextFieldDefaults.outlinedTextFieldColors(
@@ -42,7 +43,8 @@ fun TextField(
             focusedLabelColor = primary,
             unfocusedLabelColor = outline,
             focusedBorderColor = primary,
-            unfocusedBorderColor = outline
+            unfocusedBorderColor = outline,
+            errorBorderColor = error
         )
     }
     val interactionSource = remember { MutableInteractionSource() }
@@ -79,7 +81,8 @@ fun TextField(
                 }
             },
             textStyle = MaterialTheme.typography.bodyLarge,
-            interactionSource = interactionSource
+            interactionSource = interactionSource,
+            isError = isError
         )
     }
 }

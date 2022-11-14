@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.vlibrovs.litenotes.domain.model.note.Note
 import com.vlibrovs.litenotes.domain.model.user.User
 import com.vlibrovs.litenotes.domain.usecase.user.SignOutUserUseCase
+import com.vlibrovs.litenotes.util.extensions.findAll
 import com.vlibrovs.litenotes.util.resource.Resource
 import kotlinx.coroutines.launch
 
@@ -30,15 +31,12 @@ class MainScreenViewModel(private val signOutUser: SignOutUserUseCase) : ViewMod
             _displayingNotes.addAll(allNotes)
             return
         }
-        for (note in allNotes) {
-            if (note.title.lowercase().contains(searchQuery.lowercase()) && note.content.lowercase()
-                    .contains(
-                        searchQuery.lowercase()
-                    )
-            ) {
-                _displayingNotes.add(note)
+        _displayingNotes.addAll(
+            allNotes.findAll {
+                it.title.lowercase().contains(searchQuery.lowercase())
+                        && it.content.lowercase().contains(searchQuery.lowercase())
             }
-        }
+        )
     }
 
     fun getNotes(user: User) {

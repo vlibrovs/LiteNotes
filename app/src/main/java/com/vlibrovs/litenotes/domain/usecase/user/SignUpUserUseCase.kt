@@ -1,6 +1,5 @@
 package com.vlibrovs.litenotes.domain.usecase.user
 
-import android.util.Log
 import com.vlibrovs.litenotes.domain.repository.UserRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
 import com.vlibrovs.litenotes.util.extensions.isStrongPassword
@@ -17,35 +16,16 @@ class SignUpUserUseCase(private val repository: UserRepository) {
     suspend operator fun invoke(email: String, password: String, confirmPassword: String) =
         flow<Resource<AuthResult>> {
             emit(Resource.Loading())
-            delay(1500L)
-            if (email.isEmpty()) {
-                emit(Resource.Error(data = AuthResult.EmptyEmail))
-                return@flow
-            }
-            if (password.isEmpty()) {
-                emit(Resource.Error(data = AuthResult.EmptyPassword))
-                return@flow
-            }
-            if (confirmPassword.isEmpty()) {
-                emit(Resource.Error(data = AuthResult.EmptyConfirmPassword))
-                return@flow
-            }
-            if (!email.isValidEmail()) {
-                emit(Resource.Error(data = AuthResult.InvalidEmail))
-                return@flow
-            }
-            if (!password.isValidPassword()) {
-                emit(Resource.Error(data = AuthResult.InvalidPassword))
-                return@flow
-            }
-            if (!password.isStrongPassword()) {
-                emit(Resource.Error(data = AuthResult.WeakPassword))
-                return@flow
-            }
-            if (password != confirmPassword) {
-                emit(Resource.Error(data = AuthResult.PasswordIsNotConfirmed))
-                return@flow
-            }
+            if (email.isEmpty()) return@flow emit(Resource.Error(data = AuthResult.EmptyEmail))
+            if (!email.isValidEmail()) return@flow emit(Resource.Error(data = AuthResult.InvalidEmail))
+
+            if (password.isEmpty()) return@flow emit(Resource.Error(data = AuthResult.EmptyPassword))
+            if (!password.isValidPassword()) return@flow emit(Resource.Error(data = AuthResult.InvalidPassword))
+            if (!password.isStrongPassword()) return@flow emit(Resource.Error(data = AuthResult.WeakPassword))
+
+            if (confirmPassword.isEmpty()) return@flow emit(Resource.Error(data = AuthResult.EmptyConfirmPassword))
+            if (password != confirmPassword) return@flow emit(Resource.Error(data = AuthResult.PasswordIsNotConfirmed))
+
             try {
                 repository.signUp(email = email, password = password)
                 emit(Resource.Success(AuthResult.Success))

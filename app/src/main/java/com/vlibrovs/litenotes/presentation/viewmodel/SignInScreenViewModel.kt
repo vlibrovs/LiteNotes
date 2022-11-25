@@ -113,6 +113,10 @@ class SignInScreenViewModel(
                                 _pageErrorState.value = true
                                 _pageErrorStringResourceState.value = R.string.server_error
                             }
+                            is AuthResult.WrongPasswordOrEmail -> {
+                                _pageErrorState.value = true
+                                _pageErrorStringResourceState.value = R.string.wrong_email_or_password
+                            }
                             else -> _passwordErrorStringResourceState.value = R.string.unknown_error
                         }
                     }

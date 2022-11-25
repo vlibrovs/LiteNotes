@@ -1,13 +1,9 @@
 package com.vlibrovs.litenotes.domain.usecase.user
 
-import android.util.Log
 import com.google.firebase.FirebaseApiNotAvailableException
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.vlibrovs.litenotes.domain.model.user.User
 import com.vlibrovs.litenotes.domain.repository.UserRepository
 import com.vlibrovs.litenotes.util.auth.AuthResult
 import com.vlibrovs.litenotes.util.extensions.isValidEmail

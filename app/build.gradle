@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.vlibrovs.litenotes"
-        minSdk 23
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -82,10 +82,12 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation "com.squareup.okhttp3:okhttp:4.9.0"
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
 
     // Koin
     implementation "io.insert-koin:koin-android:3.2.0"
 
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.1"
+
+    implementation "androidx.core:core-splashscreen:1.0.0"
 }
